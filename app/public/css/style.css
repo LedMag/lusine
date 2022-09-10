@@ -196,6 +196,48 @@
       color: black;
   }
 
+  .login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login__form {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0;
+  }
+
+  .login__form > input {
+    height: 25px;
+    padding: 5px;
+    margin: 5px 0;
+  }
+
+  .registration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .registration__form {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0;
+  }
+
+  .registration__form > input {
+    height: 25px;
+    padding: 5px;
+    margin: 5px 0;
+  }
+
   @media (max-width: 1024px) {
     .container{
       margin: 15px;

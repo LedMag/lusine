@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +45,10 @@ Route::group(['prefix' => '{language}'], function () {
     
     Route::post('admin/login', [LoginController::class, 'login'])->name('admin.login.post');
 
+    Route::get('/registration', [RegistrationController::class, 'index'])->name('admin.registration');
+    
+    Route::post('/registration', [RegistrationController::class, 'save'])->name('admin.registration.post');
+
     Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     
         Route::get('/', [AdminController::class, 'index'])->name('admin');
@@ -62,9 +67,9 @@ Route::group(['prefix' => '{language}'], function () {
     
         Route::get('/logout', [LogoutController::class, 'index'])->name('admin.logout');
     
-        Route::get('/registration', [RegistrationController::class, 'index'])->name('admin.registration');
+        // Route::get('/registration', [RegistrationController::class, 'index'])->name('admin.registration');
     
-        Route::post('/registration', [RegistrationController::class, 'save'])->name('admin.registration.post');
+        // Route::post('/registration', [RegistrationController::class, 'save'])->name('admin.registration.post');
 
     });
 

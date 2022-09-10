@@ -6,11 +6,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RegistryController extends Controller
+class RegistrationController extends Controller
 {
     public function index()
     {
-        return view('pages.admin.registration');
+        return view('pages.registration');
     }
 
     public function save(Request $request)
