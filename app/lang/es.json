@@ -1,0 +1,20 @@
+{
+    "home": "Inicio",
+    "category": "Categoría",
+    "about": "Quien Soy",
+    "contacts": "Contactos",
+    "catalog": "Catálogo",
+    "menu": "menu",
+    "admin": "Administrador",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "registration": "Registración",
+    "name": "Nombre",
+    "image": "Imagen",
+    "description": "Descripción",
+    "email": "Correo electronico",
+    "password": "Contraseña",
+    "error.registration": "Error de registro",
+    "error.user-exists": "Ya existe un usuario con dicho correo electrónico",
+    "error.login": "Error al iniciar sesión"
+}

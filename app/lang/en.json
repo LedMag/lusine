@@ -1,0 +1,20 @@
+{
+    "home": "Home",
+    "category": "Category",
+    "about": "About",
+    "contacts": "Contacts",
+    "catalog": "Catalog",
+    "menu": "menu",
+    "admin": "Administrator",
+    "login": "Login",
+    "logout": "Logout",
+    "registration": "Registration",
+    "name": "Name",
+    "image": "Image",
+    "description": "Description",
+    "email": "Email",
+    "password": "Password",
+    "error.registration": "An error occurred during registration",
+    "error.user-exists": "A user with such an email already exists",
+    "error.login": "Failed to login"
+}
