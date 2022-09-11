@@ -5,10 +5,12 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\RegistrationController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,7 +31,12 @@ Route::redirect('/catalog', '/es/catalog');
 Route::redirect('/contacts', '/es/contacts');
 Route::redirect('/admin', '/es/admin/home');
 
-Route::group(['prefix' => '{language}'], function () {
+Route::get('language/{lang}', [LanguageController::class, 'change'])->name('language');
+
+// Route::group(['prefix' => '{language}'], function () {
+    
+// Route::group(['prefix' => App::getLocale()], function () {
+
            
     Route::get('/', [MainController::class, 'index'])->name('main');
 
@@ -41,37 +48,25 @@ Route::group(['prefix' => '{language}'], function () {
 
     Route::get('contacts', [ContactsController::class, 'index'])->name('contacts');
 
-    Route::get('admin/login', [LoginController::class, 'index'])->name('admin.login');
+    Route::get('login', [LoginController::class, 'index'])->name('login');
     
-    Route::post('admin/login', [LoginController::class, 'login'])->name('admin.login.post');
+    Route::post('login', [LoginController::class, 'login'])->name('login.post');
 
-    Route::get('/registration', [RegistrationController::class, 'index'])->name('admin.registration');
-    
-    Route::post('/registration', [RegistrationController::class, 'save'])->name('admin.registration.post');
 
     Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     
-        Route::get('/', [AdminController::class, 'index'])->name('admin');
+        Route::get('registration', [RegistrationController::class, 'index'])->name('registration');
     
-        Route::get('home', [AdminController::class, 'home'])->name('admin.home');
+        Route::post('registration', [RegistrationController::class, 'save'])->name('registration.post');
+
+        Route::post('addSlide', [AdminController::class, 'storeSlide'])->name('addSlide');
+
+        Route::get('deleteSlide/{name}', [AdminController::class, 'deleteSlide'])->name('deleteSlide');
+
+        Route::get('/logout', [LogoutController::class, 'index'])->name('logout');
     
-        Route::get('about', [AdminController::class, 'about'])->name('admin.about');
-    
-        Route::get('catalog', [AdminController::class, 'catalog'])->name('admin.catalog');
-    
-        Route::get('contacts', [AdminController::class, 'contacts'])->name('admin.contacts');
-    
-        // Route::get('/login', [LoginController::class, 'index'])->name('admin.login');
-    
-        // Route::post('/login', [LoginController::class, 'post'])->name('admin.login.post');
-    
-        Route::get('/logout', [LogoutController::class, 'index'])->name('admin.logout');
-    
-        // Route::get('/registration', [RegistrationController::class, 'index'])->name('admin.registration');
-    
-        // Route::post('/registration', [RegistrationController::class, 'save'])->name('admin.registration.post');
 
     });
 
 
-});
+// });

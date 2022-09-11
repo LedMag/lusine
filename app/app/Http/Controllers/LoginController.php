@@ -10,20 +10,21 @@ class LoginController extends Controller
     public function index()
     {
         if(Auth::check()){
-            return redirect('pages.admin.home');
+            return redirect('home');
         }
         return view('pages.login');
     }
 
     public function login(Request $request)
     {
+
         $formFields = $request->only(['email', 'password']);
 
         if(Auth::attempt($formFields)){
-            return redirect()->intended(route('admin.home', app()->getLocale()));
+            return redirect()->route('home');
         }
         
-        return redirect(route('admin.login', app()->getLocale() ))->withErrors([
+        return redirect()->route('login' )->withErrors([
             'email' => 'error.login'
         ]);
     }

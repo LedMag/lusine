@@ -16,17 +16,34 @@ class RegistrationController extends Controller
     public function save(Request $request)
     {
         if(Auth::check()){
-            return redirect(route('admin.home', app()->getLocale() ));
+            return redirect(route('pages.home'));
         }
 
         $validationFields = $request->validate([
             'name' => 'required',
+            'surname' => 'required',
             'email' => 'required|email',
-            'password' => 'required'
+            'confirmEmail' => 'required|email',
+            'password' => 'required',
+            'confirmPass' => 'required'
         ]);
 
+        if($validationFields['password'] !== $validationFields['confirmPass'])
+        {
+            return redirect(route('registration'))->withErrors([
+                'confirmPassword' => 'error.password-match'
+            ]);
+        }
+
+        if($validationFields['email'] !== $validationFields['confirmEmail'])
+        {
+            return redirect(route('registration'))->withErrors([
+                'confirmEmail' => 'error.email-match'
+            ]);
+        }
+
         if(User::where('email', $validationFields['email'])->exists()) {
-            return redirect(route('admin.login', app()->getLocale() ))->withErrors([
+            return redirect(route('admin.login'))->withErrors([
                 'email' => 'error.user-exists'
             ]);
         };
@@ -34,10 +51,10 @@ class RegistrationController extends Controller
         $user = User::create($validationFields);
         if($user){
             Auth::login($user);
-            return redirect(route('admin.home', app()->getLocale() ));
+            return redirect(route('home'));
         };
 
-        return redirect(route('admin.login', app()->getLocale() ))->withErrors([
+        return redirect(route('registration'))->withErrors([
             'formError' => 'error.registration'
         ]);
     }

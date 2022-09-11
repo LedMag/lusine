@@ -14,7 +14,11 @@
     "description": "Descripción",
     "email": "Correo electronico",
     "password": "Contraseña",
+    "send": "Enviar",
+    "delete": "Eliminar",
     "error.registration": "Error de registro",
     "error.user-exists": "Ya existe un usuario con dicho correo electrónico",
-    "error.login": "Error al iniciar sesión"
+    "error.login": "Error al iniciar sesión",
+    "error.password-match": "La contraseña no coincide",
+    "error.email-match": "El correo electrónico no coincide"
 }

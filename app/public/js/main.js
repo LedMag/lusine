@@ -3,7 +3,10 @@
 
 const dropdownBox = document.getElementById('langs');
 const dropdownElems = document.querySelectorAll('.header__lang');
-
+const buttons = document.querySelectorAll('.slider__delete');
+const url = 'localhost';
+const token = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+const lang = document.getElementById('langs');
 
 $('#slider').nivoSlider ({ 
     //effect: 'random',
@@ -46,6 +49,24 @@ slideshowEnd: function(){}, // Triggers after all slides have been shown
 lastSlide: function(){}, // Triggers when last slide is shown
 afterLoad: function(){} // Triggers when slider has loaded
 */
+
+// buttons.forEach( btn => {
+//     btn.addEventListener('click', (e) => {
+//         const fileName = e.target.dataset.name;
+//         fetch(`admin/deleteSlide/${fileName}`, {
+//             headers: {
+//                 'X-CSRF-TOKEN': token
+//             }
+//         });
+//         // window.location.href=`/home`;
+//     })
+// })
+
+langs.addEventListener('change', (e) => {
+    const url = window.location.host;
+    console.log(url, e)
+    // window.location.href = url + "?lang="+ $(this).val();
+})
 
 dropdownBox.addEventListener('click', (e) => {
     if(dropdownBox.classList.contains('open')){

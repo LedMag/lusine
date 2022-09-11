@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -14,7 +15,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('pages.admin');
+        return view('admin');
     }
 
     public function home()
@@ -24,22 +25,22 @@ class AdminController extends Controller
         foreach( $urls as $name ){
             array_push($files, basename($name) );
         };
-        return view('pages.admin.home', ['files' => $files]);
+        return view('home', ['files' => $files]);
     }
 
     public function catalog()
     {
-        return view('pages.admin.catalog');
+        return view('catalog');
     }
 
     public function about()
     {
-        return view('pages.admin.about');
+        return view('about');
     }
 
     public function contacts()
     {
-        return view('pages.admin.contacts');
+        return view('contacts');
     }
 
     /**
@@ -58,9 +59,10 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeSlide(Request $request)
     {
-        //
+        $request->file('image')->store('slider', 'public');
+        return redirect(route('home'));
     }
 
     /**
@@ -103,9 +105,11 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function deleteSlide($name)
     {
-        //
+
+        Storage::disk('public')->delete('slider/' . $name);
+        return redirect(route('home'));
     }
 
 }

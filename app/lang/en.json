@@ -14,7 +14,11 @@
     "description": "Description",
     "email": "Email",
     "password": "Password",
+    "send": "Send",
+    "delete": "Delete",
     "error.registration": "An error occurred during registration",
     "error.user-exists": "A user with such an email already exists",
-    "error.login": "Failed to login"
+    "error.login": "Failed to login",
+    "error.password-match": "The password doesn't match",
+    "error.email-match": "Email doesn't match"
 }

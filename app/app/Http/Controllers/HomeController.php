@@ -13,7 +13,6 @@ class HomeController extends Controller
         foreach( $urls as $name ){
             array_push($files, basename($name) );
         };
-        // dd($files);
         return view('pages.home', ['files' => $files]);
     }
 }
