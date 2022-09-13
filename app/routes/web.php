@@ -52,8 +52,20 @@ Route::get('language/{lang}', [LanguageController::class, 'change'])->name('lang
     
     Route::post('login', [LoginController::class, 'login'])->name('login.post');
 
+    Route::get('show/{id}', [AdminController::class, 'show'])->name('show.product');
+
+    Route::get('create', [AdminController::class, 'create'])->name('create.product');
+
+    Route::post('create', [AdminController::class, 'store'])->name('create.product.post');
+
+    Route::delete('delete/{id}', [AdminController::class, 'delete'])->name('delete.product');
+
+    Route::get('edit_page/{id}', [AdminController::class, 'edit_page'])->name('edit_page.product');
+
+    Route::patch('edit/{id}', [AdminController::class, 'edit'])->name('edit.product');
 
     Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+
     
         Route::get('registration', [RegistrationController::class, 'index'])->name('registration');
     

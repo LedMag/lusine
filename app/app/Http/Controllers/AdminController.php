@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Collection;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
@@ -28,21 +31,6 @@ class AdminController extends Controller
         return view('home', ['files' => $files]);
     }
 
-    public function catalog()
-    {
-        return view('catalog');
-    }
-
-    public function about()
-    {
-        return view('about');
-    }
-
-    public function contacts()
-    {
-        return view('contacts');
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -50,7 +38,9 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $collections = Collection::all();
+        return view('pages.create', compact('categories', 'collections'));
     }
 
     /**
@@ -59,6 +49,28 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function store(Request $request)
+    {
+        $request->all();
+
+        $dir = 'products/' . $request->name . '/';
+
+        $image = $request->file('image')->store($dir, 'public');
+
+        $product = new Product();
+ 
+        $product->name = $request->name;
+        $product->url = $image;
+        $product->description_en = $request->description_en;
+        $product->description_es = $request->description_es;
+        $product->description_ru = $request->description_ru;
+        $product->category_id = $request->category;
+        $product->collection_id = $request->collection;
+        // dd($product);
+        $product->save();
+        return redirect(route('catalog'));
+    }
+
     public function storeSlide(Request $request)
     {
         $request->file('image')->store('slider', 'public');
@@ -73,7 +85,9 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::where('id', $id)->first();
+        $product->price = 999;
+        return view('pages.show', compact('product'));
     }
 
     /**
@@ -84,7 +98,16 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        //
+        Product::edit()->where('id', $id);
+        return redirect(route('catalog'));
+    }
+
+    public function edit_page($id)
+    {
+        $categories = Category::all();
+        $collections = Collection::all();
+        $product = Product::where('id', $id)->first();
+        return view('pages.edit', compact('product', 'categories', 'collections'));
     }
 
     /**
@@ -105,6 +128,15 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function delete($id)
+    {
+        // dd($id);
+        $product = Product::where('id', $id)->first();
+        Storage::disk('public')->deleteDirectory('products/' . $product->name);
+        Product::destroy($id);
+        return redirect(route('catalog'));
+    }
+
     public function deleteSlide($name)
     {
 

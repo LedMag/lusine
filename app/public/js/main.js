@@ -6,7 +6,11 @@ const dropdownElems = document.querySelectorAll('.header__lang');
 const buttons = document.querySelectorAll('.slider__delete');
 const url = 'localhost';
 const token = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-const lang = document.getElementById('langs');
+const langs = document.getElementById('langs');
+const imageShow = document.getElementById('imageShow');
+const imageInput = document.getElementById('inputImage');
+const sliderForm = document.querySelector('.slider__form');
+const sliderImage = document.querySelector('.slider__image');
 
 $('#slider').nivoSlider ({ 
     //effect: 'random',
@@ -67,6 +71,21 @@ langs.addEventListener('change', (e) => {
     console.log(url, e)
     // window.location.href = url + "?lang="+ $(this).val();
 })
+
+if(imageInput){
+    imageInput.onchange = (event) => {
+        console.log('Work', event)
+        imageShow.src = URL.createObjectURL(event.target.files[0]);
+    }
+}
+
+if(sliderImage){
+    sliderForm.onchange = (event) => {
+        sliderForm.style.backgroundImage = `url('${URL.createObjectURL(event.target.files[0])}')`;
+    }
+}
+
+
 
 dropdownBox.addEventListener('click', (e) => {
     if(dropdownBox.classList.contains('open')){

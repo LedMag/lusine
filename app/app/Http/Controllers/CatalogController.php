@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
     static function index(){
-        return view('pages.catalog');
+        $products = Product::all();
+        return view('pages.catalog', compact('products'));
     }
 }

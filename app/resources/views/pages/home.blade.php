@@ -30,7 +30,7 @@
     <form action="{{ route('addSlide') }}" method="POST" enctype="multipart/form-data" class="slider__form">
       @csrf
       <input name="image" type="file" class="slider__image">
-      <button type="submit" class="btn">{{__('send')}}</button>
+      <button type="submit" class="btn input">{{__('send')}}</button>
     </form>
   </div>
 @endauth
