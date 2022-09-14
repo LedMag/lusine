@@ -13,7 +13,7 @@
         @csrf
         <input name="email" type="email" class="login__email" placeholder="{{__('email')}}">
         <input name="password" type="password" class="login__password" placeholder="{{__('password')}}">
-        <button type="submit" class="btn">{{__('send')}}</button>
+        <button type="submit" class="btn login-btn">{{__('send')}}</button>
     </form>
 </div>
     

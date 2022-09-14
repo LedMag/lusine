@@ -96,13 +96,8 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        Product::edit()->where('id', $id);
-        return redirect(route('catalog'));
-    }
 
-    public function edit_page($id)
+    public function edit($id)
     {
         $categories = Category::all();
         $collections = Collection::all();
@@ -119,7 +114,40 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $request->all();
+
+        $product = Product::find($id);
+
+        if($product->name !== $request->name){
+            $fileName = pathinfo($product->url, PATHINFO_FILENAME);
+            $extension = pathinfo($product->url, PATHINFO_EXTENSION);
+            $fileName = $fileName . '.' . $extension;
+            // Storage::disk('public')->delete('products/' . $request->name . '/' . $fileName);
+            $dir = 'products/' . $request->name . '/' . $fileName;
+            Storage::disk('public')->move('products/' . $product->name, 'products/' . $request->name);
+            $product->name = $request->name;
+            $product->url = $dir;
+        }
+        if($request->file('image')){
+            // $fileName = pathinfo($product->url, PATHINFO_FILENAME);
+            // $extension = pathinfo($product->url, PATHINFO_EXTENSION);
+            // $fileName = $fileName . '.' . $extension;
+            // Storage::disk('public')->delete('products/' . $request->name . '/' . $fileName);
+            $dir = 'products/' . $request->name . '/';
+            $image = $request->file('image')->store($dir, 'public');
+            $product->url = $image;
+        }
+        $product->description_en = $request->description_en;
+        $product->description_es = $request->description_es;
+        $product->description_ru = $request->description_ru;
+        // $product->price = $request->price;
+        $product->category_id = $request->category_id;
+        $product->collection_id = $request->collection_id;
+
+        $product->save();
+
+        return redirect(route('catalog'));
     }
 
     /**
@@ -130,7 +158,6 @@ class AdminController extends Controller
      */
     public function delete($id)
     {
-        // dd($id);
         $product = Product::where('id', $id)->first();
         Storage::disk('public')->deleteDirectory('products/' . $product->name);
         Product::destroy($id);

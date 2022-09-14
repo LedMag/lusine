@@ -23,7 +23,7 @@
       <img class="slider-item" src="{{ asset('/storage/slider/' . $file ) }}" alt="{{ $file }}" />
       <form action="{{ route('deleteSlide', ['name' => $file]) }}">
         @csrf
-        <button type="submit" class="slider__delete">{{__('delete')}}</button>
+        <button type="submit" class="delete slider-btn">{{__('delete')}}</button>
       </form>
     </div>
     @endforeach

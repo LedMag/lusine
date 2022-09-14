@@ -60,9 +60,9 @@ Route::get('language/{lang}', [LanguageController::class, 'change'])->name('lang
 
     Route::delete('delete/{id}', [AdminController::class, 'delete'])->name('delete.product');
 
-    Route::get('edit_page/{id}', [AdminController::class, 'edit_page'])->name('edit_page.product');
+    Route::get('edit/{id}', [AdminController::class, 'edit'])->name('edit.product');
 
-    Route::patch('edit/{id}', [AdminController::class, 'edit'])->name('edit.product');
+    Route::patch('update/{id}', [AdminController::class, 'update'])->name('update.product');
 
     Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 

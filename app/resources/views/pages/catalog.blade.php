@@ -24,12 +24,12 @@
           </div>
           @auth
           <div class="product__btns">
-            <a href="{{ route('edit_page.product', $product->id)}}" class="product__edit">{{__('edit')}}</a>
+            <a href="{{ route('edit.product', $product->id)}}" class="edit">{{__('edit')}}</a>
             
             <form action="{{ route('delete.product', ['id' => $product->id]) }}" method="POST">
               @csrf
               @method('DELETE')
-              <button type="submit" class="product__delete">{{__('delete')}}</button>
+              <button type="submit" class="delete">{{__('delete')}}</button>
             </form>
           </div>
           @endauth
@@ -54,8 +54,8 @@
       <p class="product__collection">{{$product->collection}}</p>
       <form action="{{ route('deleteSlide', ['id' => $product->id]) }}">
         @csrf
-        <button type="submit" class="product__delete">{{__('delete')}}</button>
-        <button type="submit" class="product__edit">{{__('edit')}}</button>
+        <button type="submit" class="delete">{{__('delete')}}</button>
+        <button type="submit" class="edit">{{__('edit')}}</button>
       </form>
     </div>
     @endforeach

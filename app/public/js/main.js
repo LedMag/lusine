@@ -74,7 +74,7 @@ langs.addEventListener('change', (e) => {
 
 if(imageInput){
     imageInput.onchange = (event) => {
-        console.log('Work', event)
+        console.log('Work', event.target.files[0])
         imageShow.src = URL.createObjectURL(event.target.files[0]);
     }
 }
