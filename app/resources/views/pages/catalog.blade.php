@@ -20,7 +20,7 @@
         <div class="middle">
           <div class="product__info">
             <p class="product__name">{{$product->name}}</p>
-            <p class="product__price">{{$product->price}}€ 999</p>
+            <p class="product__price">€ {{$product->price}}99</p>
           </div>
           @auth
           <div class="product__btns">

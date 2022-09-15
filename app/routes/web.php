@@ -64,12 +64,16 @@ Route::get('language/{lang}', [LanguageController::class, 'change'])->name('lang
 
     Route::patch('update/{id}', [AdminController::class, 'update'])->name('update.product');
 
+    Route::get('registration', [RegistrationController::class, 'index'])->name('registration');
+    
+    Route::post('registration', [RegistrationController::class, 'save'])->name('registration.post');
+
     Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     
-        Route::get('registration', [RegistrationController::class, 'index'])->name('registration');
+        // Route::get('registration', [RegistrationController::class, 'index'])->name('registration');
     
-        Route::post('registration', [RegistrationController::class, 'save'])->name('registration.post');
+        // Route::post('registration', [RegistrationController::class, 'save'])->name('registration.post');
 
         Route::post('addSlide', [AdminController::class, 'storeSlide'])->name('addSlide');
 

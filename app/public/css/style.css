@@ -139,12 +139,13 @@
     display: flex;
     justify-content: end;
     padding: 5px;
+    padding-left: 50px;
   }
   
   .header__item{
     display: flex;
     align-items: center;
-    margin-right: 20px;
+    margin-left: 5px;
   }
   
   .header__link {
@@ -524,6 +525,12 @@
     .footer__link{
       width: 36px;
       height: 36px;
+    }
+
+    .product {
+      width: 135px;
+      height: 135px;
+      margin: 5px;
     }
 
   }

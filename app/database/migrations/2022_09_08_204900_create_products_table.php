@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('description_en')->nullable();
             $table->string('description_es')->nullable();
             $table->string('description_ru')->nullable();
+            $table->integer('price');
             $table->timestamps();
         });
     }

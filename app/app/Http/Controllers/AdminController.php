@@ -64,9 +64,9 @@ class AdminController extends Controller
         $product->description_en = $request->description_en;
         $product->description_es = $request->description_es;
         $product->description_ru = $request->description_ru;
+        $product->price = $request->price;
         $product->category_id = $request->category;
         $product->collection_id = $request->collection;
-        // dd($product);
         $product->save();
         return redirect(route('catalog'));
     }
@@ -86,7 +86,6 @@ class AdminController extends Controller
     public function show($id)
     {
         $product = Product::where('id', $id)->first();
-        $product->price = 999;
         return view('pages.show', compact('product'));
     }
 
@@ -141,7 +140,7 @@ class AdminController extends Controller
         $product->description_en = $request->description_en;
         $product->description_es = $request->description_es;
         $product->description_ru = $request->description_ru;
-        // $product->price = $request->price;
+        $product->price = $request->price;
         $product->category_id = $request->category_id;
         $product->collection_id = $request->collection_id;
 
