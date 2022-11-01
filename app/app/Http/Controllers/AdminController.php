@@ -170,4 +170,16 @@ class AdminController extends Controller
         return redirect(route('home'));
     }
 
+    public function getCategories()
+    {
+        $categories = Category::all();
+        return response()->json($categories);
+    }
+
+    public function getCollections()
+    {
+        $collections = Collection::all();        
+        return response()->json($collections);
+    }
+
 }
