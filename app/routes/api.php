@@ -23,17 +23,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'products'], function () {
 
-    Route::get('/', [ProductController::class, 'index'])->name('products');
+    // Route::get('/', [ProductController::class, 'index'])->name('products');
     
     Route::post('/sort', [ProductController::class, 'sort'])->name('products.sort');
     
     Route::get('/{id}', [ProductController::class, 'show'])->name('products.show');
     
-    Route::post('/create', [ProductController::class, 'store'])->name('products.create');
-    
-    Route::patch('/update/{id}', [ProductController::class, 'update'])->name('products.update');
-    
-    Route::delete('/delete/{id}', [ProductController::class, 'delete'])->name('products.delete');
 });
 
 Route::group(['prefix' => 'auth'], function () {
@@ -42,14 +37,30 @@ Route::group(['prefix' => 'auth'], function () {
 
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
-    Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     
-        Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+});
 
-        Route::get('/userProfile', [AuthController::class, 'userProfile']);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    Route::get('/products', [ProductController::class, 'index'])->name('products');
+
+    Route::group(['prefix' => 'admin'], function () {
+
+        Route::group(['prefix' => 'products'], function () {
+            
+            Route::get('profiles', [AuthController::class, 'profiles'])->name('profiles');
+                        
+            Route::post('/create', [ProductController::class, 'store'])->name('products.create');
+            
+            Route::patch('/update/{id}', [ProductController::class, 'update'])->name('products.update');
+            
+            Route::delete('/delete/{id}', [ProductController::class, 'delete'])->name('products.delete');
+        });
 
     });
-    
+
 });
 
 Route::get('categories', [AdminController::class, 'getCategories'])->name('categories');
