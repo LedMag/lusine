@@ -182,4 +182,10 @@ class AdminController extends Controller
         return response()->json($collections);
     }
 
+    public function postCollections(Request $request)
+    {
+        $collections = Collection::all();        
+        return response()->json($collections);
+    }
+
 }

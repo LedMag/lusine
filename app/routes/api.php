@@ -41,10 +41,10 @@ Route::group(['prefix' => 'auth'], function () {
     
 });
 
+Route::get('/products', [ProductController::class, 'index'])->name('products');
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+// Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    Route::get('/products', [ProductController::class, 'index'])->name('products');
 
     Route::group(['prefix' => 'admin'], function () {
 
@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     });
 
-});
+// });
 
 Route::get('categories', [AdminController::class, 'getCategories'])->name('categories');
 

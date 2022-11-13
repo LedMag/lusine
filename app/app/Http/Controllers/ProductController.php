@@ -7,9 +7,39 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    public function saveImage ($name, $base64str) 
+    {
+        $image_64 = $base64str; //your base64 encoded data
+
+        // $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+      
+        $ext = explode(';base64',$image_64);
+        $ext = explode('/',$ext[0]);
+        $ext = $ext[1];	
+
+        $replace = substr($image_64, 0, strpos($image_64, ',')+1); 
+      
+      // find substring fro replace here eg: data:image/png;base64,
+      
+        $image = str_replace($replace, '', $image_64); 
+      
+        $image = str_replace(' ', '+', $image); 
+      
+        $imageName = Str::random(10).'.'.$ext;
+
+        $imageDir = 'products/' . $name . '/' . $imageName;
+      
+        Storage::disk('public')->put($imageDir, base64_decode($image));
+
+        Log::info('Product: ' . $imageDir);
+
+        return "public/" . $imageDir;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -30,6 +60,12 @@ class ProductController extends Controller
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->leftJoin('collections', 'products.collection_id', '=', 'collections.id')
             ->get(); 
+        foreach($products as $product){
+            $image64 = Storage::get($product->url);
+            $product->url = "data:image/jpg;base64," . base64_encode($image64);
+        };
+        // Storage::disk('public')->get($imageDir, base64_decode($image));
+
         return response()->json($products);
     }
 
@@ -52,23 +88,34 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->all();
+        // $request->json()->all();
 
-        $dir = 'products/' . $request->name . '/';
+        $request = $request->instance();
+        $content = $request->getContent();
+        $array = json_decode($content);
 
-        $image = $request->file('image')->store($dir, 'public');
+        foreach( $array as $obj ){
+            $product = new Product();
 
-        $product = new Product();
- 
-        $product->name = $request->name;
-        $product->url = $image;
-        $product->description_en = $request->description_en;
-        $product->description_es = $request->description_es;
-        $product->description_ru = $request->description_ru;
-        $product->price = $request->price;
-        $product->category_id = $request->category;
-        $product->collection_id = $request->collection;
-        $product->save();
+            $base_64_image_string = $obj->image;
+
+            if($base_64_image_string){
+                $url_image = $this->saveImage($obj->name, $base_64_image_string);
+                $product->url = $url_image;
+            }
+    
+            // $image = $request->file('image')->store($dir, 'public');
+     
+            $product->name = $obj->name;
+            $product->description_en = $obj->description_en;
+            $product->description_es = $obj->description_es;
+            $product->description_ru = $obj->description_ru;
+            $product->price = $obj->price;
+            $product->category_id = $obj->category;
+            $product->collection_id = $obj->collection;
+            $product->save();
+        };
+        
 
         return response()->status(200);
     }
