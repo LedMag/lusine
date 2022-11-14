@@ -247,7 +247,11 @@ class ProductController extends Controller
             ->orderBy('products.name', $order)
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->leftJoin('collections', 'products.collection_id', '=', 'collections.id')
-            ->get(); 
+            ->get();
+            foreach($products as $product){
+                $image64 = Storage::get($product->url);
+                $product->url = "data:image/jpg;base64," . base64_encode($image64);
+            };
 
         return response()->json($products);
     }
