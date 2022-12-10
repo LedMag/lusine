@@ -12,20 +12,20 @@
     <nav class="header__nav spr">
       <ul class="header__menu spr-inner">
         <li class="header__item">
-          <a href="{{ route('home') }}" class="header__link {{ Route::is('home') ? 'active__link' : '' }}">{{ __("home") }}</a>
+          <a href="{{ route('home', app()->getLocale() ) }}" class="header__link {{ Route::is('home') ? 'active__link' : '' }}">{{ __("home") }}</a>
         </li>
         <li class="header__item">
-          <a href="{{ route('catalog') }}" class="header__link {{ Route::is('catalog') ? 'active__link' : '' }}">{{ __("catalog") }}</a>
+          <a href="{{ route('catalog', app()->getLocale() ) }}" class="header__link {{ Route::is('catalog') ? 'active__link' : '' }}">{{ __("catalog") }}</a>
         </li>
         <li class="header__item">
-          <a href="{{ route('about') }}" class="header__link {{ Route::is('about') ? 'active__link' : '' }}">{{ __("about") }}</a>
+          <a href="{{ route('about', app()->getLocale() ) }}" class="header__link {{ Route::is('about') ? 'active__link' : '' }}">{{ __("about") }}</a>
         </li>
         <li class="header__item">
-          <a href="{{ route('contacts') }}" class="header__link {{ Route::is('contacts') ? 'active__link' : '' }}">{{ __("contacts") }}</a>
+          <a href="{{ route('contacts', app()->getLocale() ) }}" class="header__link {{ Route::is('contacts') ? 'active__link' : '' }}">{{ __("contacts") }}</a>
         </li>
         @auth
         <li class="header__item">
-          <a href="{{ route('logout') }}" class="header__link {{ Route::is('admin.logout') ? 'active__link' : '' }}">{{ __(">") }}</a>
+          <a href="{{ route('logout', app()->getLocale() ) }}" class="header__link {{ Route::is('admin.logout') ? 'active__link' : '' }}">{{ __(">") }}</a>
         </li>
         @endauth
       </ul>

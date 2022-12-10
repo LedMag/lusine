@@ -21,37 +21,34 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'products'], function () {
-
-    // Route::get('/', [ProductController::class, 'index'])->name('products');
-    
-    Route::post('/sort', [ProductController::class, 'sort'])->name('products.sort');
-    
-    Route::get('/{id}', [ProductController::class, 'show'])->name('products.show');
-    
-});
-
-Route::group(['prefix' => 'auth'], function () {
-
-    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
-
-    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
-
-    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-    
-});
+Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 
-// Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::get('categories', [AdminController::class, 'getCategories'])->name('categories');
 
+Route::get('collections', [AdminController::class, 'getCollections'])->name('collections');
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    Route::get('profiles', [AuthController::class, 'profiles'])->name('profiles');
 
     Route::group(['prefix' => 'admin'], function () {
 
+        Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+
+        Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+        // Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+
         Route::group(['prefix' => 'products'], function () {
+
+            Route::get('/', [ProductController::class, 'index'])->name('products');
+    
+            Route::post('/sort', [ProductController::class, 'sort'])->name('products.sort');
             
-            Route::get('profiles', [AuthController::class, 'profiles'])->name('profiles');
-                        
+            Route::get('/{id}', [ProductController::class, 'show'])->name('products.show');
+                                    
             Route::post('/create', [ProductController::class, 'store'])->name('products.create');
             
             Route::patch('/update/{id}', [ProductController::class, 'update'])->name('products.update');
@@ -61,8 +58,4 @@ Route::get('/products', [ProductController::class, 'index'])->name('products');
 
     });
 
-// });
-
-Route::get('categories', [AdminController::class, 'getCategories'])->name('categories');
-
-Route::get('collections', [AdminController::class, 'getCollections'])->name('collections');
+});
