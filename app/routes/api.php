@@ -21,6 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products');
@@ -35,7 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => 'admin'], function () {
 
-        Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+        // Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
         Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
