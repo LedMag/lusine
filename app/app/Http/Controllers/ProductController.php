@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\ErrorHandler\ErrorHandler;
 
 class ProductController extends Controller
 {
@@ -97,27 +98,35 @@ class ProductController extends Controller
         foreach( $array as $obj ){
             $product = new Product();
 
-            $base_64_image_string = $obj->image;
-
-            if($base_64_image_string){
-                $url_image = $this->saveImage($obj->name, $base_64_image_string);
-                $product->url = $url_image;
+            try{
+                $base_64_image_string = $obj->image;
+    
+                if($base_64_image_string){
+                    $url_image = $this->saveImage($obj->name, $base_64_image_string);
+                    $product->url = $url_image;
+                }
+            }catch (ErrorHandler $err) {
+                return response($err);
             }
+
     
             // $image = $request->file('image')->store($dir, 'public');
-     
-            $product->name = $obj->name;
-            $product->description_en = $obj->description_en;
-            $product->description_es = $obj->description_es;
-            $product->description_ru = $obj->description_ru;
-            $product->price = $obj->price;
-            $product->category_id = $obj->category;
-            $product->collection_id = $obj->collection;
-            $product->save();
+
+            try{
+                $product->name = $obj->name;
+                $product->description_en = $obj->description_en;
+                $product->description_es = $obj->description_es;
+                $product->description_ru = $obj->description_ru;
+                $product->price = $obj->price;
+                $product->category_id = $obj->category;
+                $product->collection_id = $obj->collection;
+                $product->save();
+            }catch (ErrorHandler $err){
+                return response($err);
+            }
         };
         
-
-        return response()->status(200);
+        return response();
     }
 
     /**
@@ -184,7 +193,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return response()->status(200);
+        return response();
     }
 
     /**
@@ -196,9 +205,14 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::where('id', $id)->first();
-        Storage::disk('public')->deleteDirectory('products/' . $product->name);
-        Product::destroy($id);
-        return response()->status(200);
+
+        try{
+            Storage::disk('public')->deleteDirectory('products/' . $product->name);
+            Product::destroy($id);
+        }catch(ErrorHandler $err){
+            return response($err);
+        }
+        return response();
     }
 
     /**
