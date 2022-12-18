@@ -21,9 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
-
-Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+// Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 
@@ -33,20 +31,16 @@ Route::get('collections', [AdminController::class, 'getCollections'])->name('col
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
+    // Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    
+    // Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+    
     Route::get('profiles', [AuthController::class, 'profiles'])->name('profiles');
 
     Route::group(['prefix' => 'admin'], function () {
 
-        // Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
-
-        Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-
-        // Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
-
         Route::group(['prefix' => 'products'], function () {
 
-            Route::get('/', [ProductController::class, 'index'])->name('products');
-    
             Route::post('/sort', [ProductController::class, 'sort'])->name('products.sort');
             
             Route::get('/{id}', [ProductController::class, 'show'])->name('products.show');
@@ -55,7 +49,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             
             Route::patch('/update/{id}', [ProductController::class, 'update'])->name('products.update');
             
-            Route::delete('/delete/{id}', [ProductController::class, 'delete'])->name('products.delete');
+            Route::get('/delete/{id}', [ProductController::class, 'delete'])->name('products.delete');
         });
 
     });
